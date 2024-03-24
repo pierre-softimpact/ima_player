@@ -50,7 +50,7 @@ class ImaPlayerViewFactory(private val messenger: BinaryMessenger) :
         if (uri.startsWith("asset://")) {
             val flutterLoader = FlutterInjector.instance().flutterLoader()
             val assetKey = flutterLoader.getLookupKeyForAsset(uri.substring(8))
-            imaPlayerSettings.uri = Uri.parse("asset:///${assetKey}")
+            imaPlayerSettings.url = "asset:///${assetKey}"
         }
 
         return ImaPlayerView(
