@@ -3,7 +3,7 @@ package dev.gece.imaplayer
 import android.net.Uri
 
 class ImaPlayerSettings(mediaUrl: String, imaTag: String?) {
-    var uri: Uri = Uri.parse(mediaUrl)
+    var url: String = mediaUrl
     var tag: Uri? = if (imaTag != null) Uri.parse(imaTag) else null
     var isMixed: Boolean = false;
     var autoPlay: Boolean = true

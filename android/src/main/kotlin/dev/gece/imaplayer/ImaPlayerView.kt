@@ -24,8 +24,11 @@ import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.ima.ImaAdsLoader
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.exoplayer.source.MediaSource
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.PlayerView
 import com.google.ads.interactivemedia.v3.api.AdErrorEvent
 import com.google.ads.interactivemedia.v3.api.AdErrorEvent.AdErrorListener
@@ -189,7 +192,7 @@ internal class ImaPlayerView(
             }
         })
 
-        val mediaItem = generateMediaItem(imaPlayerSettings.uri)
+        val mediaItem = generateMediaItem(imaPlayerSettings.url)
         exoPlayer.addMediaSource(mediaSourceWithAdFactory.createMediaSource(mediaItem))
         exoPlayer.prepare();
 
@@ -223,8 +226,12 @@ internal class ImaPlayerView(
         )
     }
 
-    private fun generateMediaItem(uri: Uri): MediaItem {
-        val builder = MediaItem.Builder().setUri(uri).setMimeType(MimeTypes.APPLICATION_M3U8)
+    private fun generateMediaItem(mediaUrl: String): MediaItem {
+        var mimeType = MimeTypes.APPLICATION_M3U8
+        if(mediaUrl.contains(".mp4")){
+            mimeType = MimeTypes.APPLICATION_MP4
+        }
+        val builder = MediaItem.Builder().setUri(Uri.parse(mediaUrl)).setMimeType(mimeType)
 
         if (imaPlayerSettings.isAdsEnabled) {
             builder.setAdsConfiguration(AdsConfiguration.Builder(imaPlayerSettings.tag!!).build())
@@ -232,6 +239,7 @@ internal class ImaPlayerView(
 
         return builder.build();
     }
+
 
     private fun sendPlayState() {
         val event = HashMap<String, Any>()
@@ -283,7 +291,7 @@ internal class ImaPlayerView(
     private fun play(uri: String?, result: MethodChannel.Result) {
         if (uri != null) {
             exoPlayer.clearMediaItems()
-            exoPlayer.addMediaItem(generateMediaItem(Uri.parse(uri)))
+            exoPlayer.addMediaItem(generateMediaItem(uri))
         }
 
         exoPlayer.playWhenReady = true
