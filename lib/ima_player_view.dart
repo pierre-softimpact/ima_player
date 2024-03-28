@@ -16,12 +16,30 @@ class _ImaPlayerView extends StatelessWidget {
     const viewType = 'gece.dev/imaplayer_view';
 
     if (Platform.isAndroid) {
-      return AndroidView(
+      return PlatformViewLink(
         viewType: viewType,
-        creationParams: creationParams,
-        gestureRecognizers: gestureRecognizers,
-        creationParamsCodec: const StandardMessageCodec(),
-        onPlatformViewCreated: onViewCreated,
+        surfaceFactory:
+            (BuildContext context, PlatformViewController controller) {
+          return AndroidViewSurface(
+            controller: controller as AndroidViewController,
+            gestureRecognizers:  const <Factory<OneSequenceGestureRecognizer>>{},
+            hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+          );
+        },
+        onCreatePlatformView: (PlatformViewCreationParams params) {
+          return PlatformViewsService.initSurfaceAndroidView(
+            id: params.id,
+            viewType: viewType,
+            layoutDirection: TextDirection.ltr,
+            creationParams: creationParams,
+            creationParamsCodec: const StandardMessageCodec(),
+            onFocus: () {
+              params.onFocusChanged(true);
+            },
+          )
+            ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+            ..create();
+        },
       );
     } else {
       return UiKitView(
