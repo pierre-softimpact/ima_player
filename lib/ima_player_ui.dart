@@ -160,9 +160,7 @@ class _ImaPlayerUIState extends State<ImaPlayerUI> {
           return;
         }
 
-        if (controller.value.isReady &&
-            controller.value.isPlaying &&
-            !_initialWatcherAddedAfterAds) {
+        if (controller.value.isReady && controller.value.isPlaying && !_initialWatcherAddedAfterAds) {
           _initialWatcherAddedAfterAds = true;
           watchUi();
         }
@@ -202,7 +200,15 @@ class _ImaPlayerUIState extends State<ImaPlayerUI> {
             if (widget.bufferingIndicatorBuilder != null)
               widget.bufferingIndicatorBuilder!()
             else
-              const Center(child: CircularProgressIndicator.adaptive()),
+              const Center(
+                  child: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  color: Color(0XFF344FB1),
+                  strokeWidth: 2,
+                ),
+              )),
           if (canRenderUi)
             Positioned.fill(
               child: Row(
@@ -210,16 +216,14 @@ class _ImaPlayerUIState extends State<ImaPlayerUI> {
                   Expanded(
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
-                      onDoubleTap:
-                          widget.fastBackwardEnabled ? backwardVideo : null,
+                      onDoubleTap: widget.fastBackwardEnabled ? backwardVideo : null,
                       onTap: toggleUi,
                     ),
                   ),
                   Expanded(
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
-                      onDoubleTap:
-                          widget.fastBackwardEnabled ? forwardVideo : null,
+                      onDoubleTap: widget.fastBackwardEnabled ? forwardVideo : null,
                       onTap: toggleUi,
                     ),
                   )
@@ -255,18 +259,14 @@ class _ImaPlayerUIState extends State<ImaPlayerUI> {
                           ),
                         ),
                       ),
-                      if (controller.value.isReady &&
-                          !controller.value.isEnded &&
-                          widget.muteEnabled)
+                      if (controller.value.isReady && !controller.value.isEnded && widget.muteEnabled)
                         Positioned(
                           top: 8,
                           right: 8,
                           child: GestureDetector(
                             onTap: muteToggle,
                             child: Icon(
-                              controller.value.volume == 0.0
-                                  ? Icons.volume_off
-                                  : Icons.volume_up,
+                              controller.value.volume == 0.0 ? Icons.volume_off : Icons.volume_up,
                               color: Colors.white,
                               size: 28,
                             ),
@@ -354,8 +354,7 @@ class _ImaProgressBarState extends State<ImaProgressBar> {
           ),
           Expanded(
             child: LayoutBuilder(builder: (context, rect) {
-              final positionPercent = position.inMilliseconds /
-                  widget.controller.value.duration.inMilliseconds;
+              final positionPercent = position.inMilliseconds / widget.controller.value.duration.inMilliseconds;
 
               if (positionPercent.isNaN || positionPercent.isInfinite) {
                 return const SizedBox.shrink();
