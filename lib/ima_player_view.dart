@@ -37,6 +37,7 @@ class _ImaPlayerView extends StatelessWidget {
               params.onFocusChanged(true);
             },
           )
+            ..addOnPlatformViewCreatedListener(onViewCreated)
             ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
             ..create();
         },
