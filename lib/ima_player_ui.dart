@@ -196,97 +196,97 @@ class _ImaPlayerUIState extends State<ImaPlayerUI> {
       child: Stack(
         children: [
           widget.player,
-          if (controller.value.isBuffering)
-            if (widget.bufferingIndicatorBuilder != null)
-              widget.bufferingIndicatorBuilder!()
-            else
-              const Center(
-                  child: SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  color: Color(0XFF344FB1),
-                  strokeWidth: 2,
-                ),
-              )),
-          if (canRenderUi)
-            Positioned.fill(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onDoubleTap: widget.fastBackwardEnabled ? backwardVideo : null,
-                      onTap: toggleUi,
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onDoubleTap: widget.fastBackwardEnabled ? forwardVideo : null,
-                      onTap: toggleUi,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          if (canRenderUi)
-            Positioned.fill(
-              child: IgnorePointer(
-                ignoring: uiHidden,
-                child: AnimatedOpacity(
-                  opacity: uiHidden ? 0.0 : 1,
-                  duration: widget.uiFadeOutDuration,
-                  child: Stack(
-                    children: [
-                      const IgnorePointer(
-                        child: SizedBox.expand(
-                          child: ColoredBox(color: Color(0x66000000)),
-                        ),
-                      ),
-                      Center(
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: togglePlay,
-                          child: Icon(
-                            controller.value.isEnded
-                                ? Icons.replay_circle_filled
-                                : controller.value.isPlaying
-                                    ? Icons.pause_circle
-                                    : Icons.play_circle,
-                            size: 60,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      if (controller.value.isReady && !controller.value.isEnded && widget.muteEnabled)
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: GestureDetector(
-                            onTap: muteToggle,
-                            child: Icon(
-                              controller.value.volume == 0.0 ? Icons.volume_off : Icons.volume_up,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                          ),
-                        ),
-                      if (controller.value.isReady && !controller.value.isEnded)
-                        Positioned(
-                          bottom: 8,
-                          right: 8,
-                          left: 8,
-                          child: ImaProgressBar(
-                            controller,
-                            onSeek: seekToHandler,
-                          ),
-                        )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+          // if (controller.value.isBuffering)
+          //   if (widget.bufferingIndicatorBuilder != null)
+          //     widget.bufferingIndicatorBuilder!()
+          //   else
+          //     const Center(
+          //         child: SizedBox(
+          //       width: 24,
+          //       height: 24,
+          //       child: CircularProgressIndicator(
+          //         color: Color(0XFF344FB1),
+          //         strokeWidth: 2,
+          //       ),
+          //     )),
+          // if (canRenderUi)
+          //   Positioned.fill(
+          //     child: Row(
+          //       children: [
+          //         Expanded(
+          //           child: GestureDetector(
+          //             behavior: HitTestBehavior.opaque,
+          //             onDoubleTap: widget.fastBackwardEnabled ? backwardVideo : null,
+          //             onTap: toggleUi,
+          //           ),
+          //         ),
+          //         Expanded(
+          //           child: GestureDetector(
+          //             behavior: HitTestBehavior.opaque,
+          //             onDoubleTap: widget.fastBackwardEnabled ? forwardVideo : null,
+          //             onTap: toggleUi,
+          //           ),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // if (canRenderUi)
+          //   Positioned.fill(
+          //     child: IgnorePointer(
+          //       ignoring: uiHidden,
+          //       child: AnimatedOpacity(
+          //         opacity: uiHidden ? 0.0 : 1,
+          //         duration: widget.uiFadeOutDuration,
+          //         child: Stack(
+          //           children: [
+          //             const IgnorePointer(
+          //               child: SizedBox.expand(
+          //                 child: ColoredBox(color: Color(0x66000000)),
+          //               ),
+          //             ),
+          //             Center(
+          //               child: GestureDetector(
+          //                 behavior: HitTestBehavior.opaque,
+          //                 onTap: togglePlay,
+          //                 child: Icon(
+          //                   controller.value.isEnded
+          //                       ? Icons.replay_circle_filled
+          //                       : controller.value.isPlaying
+          //                           ? Icons.pause_circle
+          //                           : Icons.play_circle,
+          //                   size: 60,
+          //                   color: Colors.white,
+          //                 ),
+          //               ),
+          //             ),
+          //             if (controller.value.isReady && !controller.value.isEnded && widget.muteEnabled)
+          //               Positioned(
+          //                 top: 8,
+          //                 right: 8,
+          //                 child: GestureDetector(
+          //                   onTap: muteToggle,
+          //                   child: Icon(
+          //                     controller.value.volume == 0.0 ? Icons.volume_off : Icons.volume_up,
+          //                     color: Colors.white,
+          //                     size: 28,
+          //                   ),
+          //                 ),
+          //               ),
+          //             if (controller.value.isReady && !controller.value.isEnded)
+          //               Positioned(
+          //                 bottom: 8,
+          //                 right: 8,
+          //                 left: 8,
+          //                 child: ImaProgressBar(
+          //                   controller,
+          //                   onSeek: seekToHandler,
+          //                 ),
+          //               )
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
         ],
       ),
     );
