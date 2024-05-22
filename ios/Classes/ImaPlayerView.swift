@@ -34,6 +34,8 @@ class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAd
     func view() -> UIView {
         return avPlayerViewController.view
     }
+
+  
     
     init(
         frame: CGRect,
@@ -78,6 +80,11 @@ class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAd
         setMixWithOther()
         addListenerForItem()
         addListenerForPlayer()
+
+         if let pictureInPictureButton = pipController?.pictureInPictureButton {
+        // Add button to AVPlayerViewController's contentOverlayView
+        avPlayerViewController.contentOverlayView?.addSubview(pictureInPictureButton)
+    }
         
         /// Configure Ads Loader
         if imaPlayerSettings.isAdsEnabled {
@@ -92,6 +99,14 @@ class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAd
             
             timer.invalidate()
             self.requestAd()
+        }
+    }
+
+    @objc func togglePiPMode() {
+        if pipController?.isPictureInPictureActive ?? false {
+            pipController?.stopPictureInPicture()
+        } else {
+            pipController?.startPictureInPicture()
         }
     }
     
