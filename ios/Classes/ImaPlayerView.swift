@@ -12,7 +12,7 @@ import UIKit
 import AVKit
 import MediaPlayer
 
-class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAdsLoaderDelegate, FlutterStreamHandler {
+class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAdsLoaderDelegate, FlutterStreamHandler,AVPictureInPictureControllerDelegate {
     private var viewId: Int64
     private var eventSink: FlutterEventSink?
     private var eventQueue: [Dictionary<String, Any>] = []
@@ -22,14 +22,13 @@ class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAd
     
     private var imaPlayerSettings: ImaPlayerSettings!
     private var avPlayer: AVPlayer!
-    
+    private var pipController: AVPictureInPictureController?
     private var imaAdsLoader: IMAAdsLoader!
     private var imaAdsManager: IMAAdsManager?
     private var avPlayerViewController = AVPlayerViewController()
     
     private var isDisposed = false
     private var isShowingContent = true
-    
     private var timer: Timer?
     
     func view() -> UIView {
@@ -68,6 +67,11 @@ class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAd
         
         super.init()
         
+        if AVPictureInPictureController.isPictureInPictureSupported() {
+                   pipController = AVPictureInPictureController(playerLayer: avPlayerViewController.playerLayer)
+                   pipController?.delegate = self
+               }
+        
         eventChannel.setStreamHandler(self);
         methodChannel.setMethodCallHandler(onMethodCall)
         
@@ -90,6 +94,26 @@ class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAd
             self.requestAd()
         }
     }
+    
+    func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+           // PiP started
+           print("Picture in Picture started.")
+       }
+
+       func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+           // PiP stopped
+           print("Picture in Picture stopped.")
+       }
+
+       func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+           // PiP will stop
+           print("Picture in Picture will stop.")
+       }
+
+       func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
+           // PiP failed to start
+           print("Failed to start Picture in Picture: \(error.localizedDescription)")
+       }
     
     func onMethodCall(call: FlutterMethodCall, result: FlutterResult) {
         switch(call.method){
