@@ -69,10 +69,10 @@ class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAd
         
         super.init()
         
-        if AVPictureInPictureController.isPictureInPictureSupported() {
-                   pipController = AVPictureInPictureController(playerLayer: avPlayerViewController.playerLayer)
-                   pipController?.delegate = self
-               }
+        // if AVPictureInPictureController.isPictureInPictureSupported() {
+        //            pipController = AVPictureInPictureController(playerLayer: avPlayerViewController.playerLayer)
+        //            pipController?.delegate = self
+        //        }
         
         eventChannel.setStreamHandler(self);
         methodChannel.setMethodCallHandler(onMethodCall)
@@ -81,10 +81,10 @@ class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAd
         addListenerForItem()
         addListenerForPlayer()
 
-         if let pictureInPictureButton = pipController?.pictureInPictureButton {
-        // Add button to AVPlayerViewController's contentOverlayView
-        avPlayerViewController.contentOverlayView?.addSubview(pictureInPictureButton)
-    }
+    //      if let pictureInPictureButton = pipController?.pictureInPictureButton {
+    //     // Add button to AVPlayerViewController's contentOverlayView
+    //     avPlayerViewController.contentOverlayView?.addSubview(pictureInPictureButton)
+    // }
         
         /// Configure Ads Loader
         if imaPlayerSettings.isAdsEnabled {
