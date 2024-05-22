@@ -60,7 +60,7 @@ class ImaPlayerView: NSObject, FlutterPlatformView, IMAAdsManagerDelegate, IMAAd
         avPlayerViewController.view.frame = frame
         avPlayerViewController.showsPlaybackControls = imaPlayerSettings.showPlaybackControls
         avPlayerViewController.updatesNowPlayingInfoCenter = false
-        avPlayerViewController.allowsPictureInPicturePlayback = false
+        avPlayerViewController.allowsPictureInPicturePlayback = true
         
         if #available(iOS 16.0, *) {
             avPlayerViewController.allowsVideoFrameAnalysis = false
