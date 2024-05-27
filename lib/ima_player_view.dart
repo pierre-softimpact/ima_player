@@ -1,6 +1,6 @@
 part of 'ima_player.dart';
 
-class _ImaPlayerView extends StatelessWidget {
+class _ImaPlayerView extends StatefulWidget {
   const _ImaPlayerView(
     this.creationParams, {
     required this.gestureRecognizers,
@@ -11,6 +11,11 @@ class _ImaPlayerView extends StatelessWidget {
   final void Function(int viewId) onViewCreated;
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
 
+  @override
+  State<_ImaPlayerView> createState() => _ImaPlayerViewState();
+}
+
+class _ImaPlayerViewState extends State<_ImaPlayerView> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     const viewType = 'gece.dev/imaplayer_view';
@@ -31,13 +36,13 @@ class _ImaPlayerView extends StatelessWidget {
             id: params.id,
             viewType: viewType,
             layoutDirection: TextDirection.ltr,
-            creationParams: creationParams,
+            creationParams: widget.creationParams,
             creationParamsCodec: const StandardMessageCodec(),
             onFocus: () {
               params.onFocusChanged(true);
             },
           )
-            ..addOnPlatformViewCreatedListener(onViewCreated)
+            ..addOnPlatformViewCreatedListener(widget.onViewCreated)
             ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
             ..create();
         },
@@ -45,11 +50,15 @@ class _ImaPlayerView extends StatelessWidget {
     } else {
       return UiKitView(
         viewType: viewType,
-        creationParams: creationParams,
-        gestureRecognizers: gestureRecognizers,
+        creationParams: widget.creationParams,
+        gestureRecognizers: widget.gestureRecognizers,
         creationParamsCodec: const StandardMessageCodec(),
-        onPlatformViewCreated: onViewCreated,
+        onPlatformViewCreated: widget.onViewCreated,
       );
     }
   }
+  
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
