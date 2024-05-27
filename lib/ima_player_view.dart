@@ -1,6 +1,6 @@
 part of 'ima_player.dart';
 
-class _ImaPlayerView extends StatefulWidget {
+class _ImaPlayerView extends StatelessWidget {
   const _ImaPlayerView(
     this.creationParams, {
     required this.gestureRecognizers,
@@ -11,11 +11,6 @@ class _ImaPlayerView extends StatefulWidget {
   final void Function(int viewId) onViewCreated;
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
 
-  @override
-  State<_ImaPlayerView> createState() => _ImaPlayerViewState();
-}
-
-class _ImaPlayerViewState extends State<_ImaPlayerView> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     const viewType = 'gece.dev/imaplayer_view';
@@ -36,13 +31,13 @@ class _ImaPlayerViewState extends State<_ImaPlayerView> with AutomaticKeepAliveC
             id: params.id,
             viewType: viewType,
             layoutDirection: TextDirection.ltr,
-            creationParams: widget.creationParams,
+            creationParams: creationParams,
             creationParamsCodec: const StandardMessageCodec(),
             onFocus: () {
               params.onFocusChanged(true);
             },
           )
-            ..addOnPlatformViewCreatedListener(widget.onViewCreated)
+            ..addOnPlatformViewCreatedListener(onViewCreated)
             ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
             ..create();
         },
@@ -50,15 +45,11 @@ class _ImaPlayerViewState extends State<_ImaPlayerView> with AutomaticKeepAliveC
     } else {
       return UiKitView(
         viewType: viewType,
-        creationParams: widget.creationParams,
-        gestureRecognizers: widget.gestureRecognizers,
+        creationParams: creationParams,
+        gestureRecognizers: gestureRecognizers,
         creationParamsCodec: const StandardMessageCodec(),
-        onPlatformViewCreated: widget.onViewCreated,
+        onPlatformViewCreated: onViewCreated,
       );
     }
   }
-  
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }
