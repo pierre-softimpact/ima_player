@@ -47,7 +47,6 @@ class _ImaPlayerView extends StatelessWidget {
         viewType: viewType,
         creationParams: creationParams,
         gestureRecognizers: gestureRecognizers,
-        hitTestBehavior: PlatformViewHitTestBehavior.translucent,
         creationParamsCodec: const StandardMessageCodec(),
         onPlatformViewCreated: onViewCreated,
       );
