@@ -227,9 +227,13 @@ internal class ImaPlayerView(
     }
 
     private fun generateMediaItem(mediaUrl: String): MediaItem {
-        var mimeType = MimeTypes.APPLICATION_M3U8
+        var mimeType = "";
         if(mediaUrl.contains(".mp4")){
             mimeType = MimeTypes.APPLICATION_MP4
+        }
+
+        if(mediaUrl.contains(".meu8")){
+            mimeType = MimeTypes.APPLICATION_M3U8
         }
         val builder = MediaItem.Builder().setUri(Uri.parse(mediaUrl)).setMimeType(mimeType)
 
