@@ -232,7 +232,7 @@ internal class ImaPlayerView(
             mimeType = MimeTypes.APPLICATION_MP4
         }
 
-        if(mediaUrl.contains(".meu8")){
+        if(mediaUrl.contains(".m3u8")){
             mimeType = MimeTypes.APPLICATION_M3U8
         }
         val builder = MediaItem.Builder().setUri(Uri.parse(mediaUrl)).setMimeType(mimeType)
